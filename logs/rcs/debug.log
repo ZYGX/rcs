@@ -1,0 +1,46 @@
+2020-10-27 16:37:41,109 [background-preinit] INFO  [org.hibernate.validator.internal.util.Version] Version.java:21 - HV000001: Hibernate Validator 6.0.20.Final
+2020-10-27 16:37:41,428 [main] INFO  [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] PostProcessorRegistrationDelegate.java:335 - Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$4ac4941a] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-10-27 16:37:42,123 [main] WARN  [c.a.cloud.nacos.client.NacosPropertySourceBuilder] NacosPropertySourceBuilder.java:86 - Ignore the empty nacos configuration and get it based on dataId[rcs] & group[DEFAULT_GROUP]
+2020-10-27 16:37:42,157 [main] INFO  [c.a.cloud.nacos.client.NacosPropertySourceBuilder] NacosPropertySourceBuilder.java:91 - Loading nacos data, dataId: 'rcs.yaml', group: 'DEFAULT_GROUP', data: server:
+    port: 8088
+logging:
+  level:
+    root: error
+    
+rocketmq:
+  name-server: 192.168.208.59:9876
+  producer:
+    group: rcs-group
+    send-message-timeout: 300000
+rcs:
+  rocketmq:
+    message-topic: message-rcs-topic
+    delay-level: 1
+  times-required-to-fail-once: 10
+
+maap:
+  service-url: http://192.168.209.176:3128/
+2020-10-27 16:37:42,178 [main] INFO  [o.s.c.b.c.PropertySourceBootstrapConfiguration] PropertySourceBootstrapConfiguration.java:101 - Located property source: CompositePropertySource {name='NACOS', propertySources=[NacosPropertySource {name='rcs.yaml'}, NacosPropertySource {name='rcs'}]}
+2020-10-27 16:38:39,217 [background-preinit] INFO  [org.hibernate.validator.internal.util.Version] Version.java:21 - HV000001: Hibernate Validator 6.0.20.Final
+2020-10-27 16:38:39,582 [main] INFO  [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] PostProcessorRegistrationDelegate.java:335 - Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$ff58bfcf] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-10-27 16:38:40,289 [main] WARN  [c.a.cloud.nacos.client.NacosPropertySourceBuilder] NacosPropertySourceBuilder.java:86 - Ignore the empty nacos configuration and get it based on dataId[rcs] & group[DEFAULT_GROUP]
+2020-10-27 16:38:40,326 [main] INFO  [c.a.cloud.nacos.client.NacosPropertySourceBuilder] NacosPropertySourceBuilder.java:91 - Loading nacos data, dataId: 'rcs.yaml', group: 'DEFAULT_GROUP', data: server:
+    port: 8088
+logging:
+  level:
+    root: error
+    
+rocketmq:
+  name-server: 192.168.208.59:9876
+  producer:
+    group: rcs-group
+    send-message-timeout: 300000
+rcs:
+  rocketmq:
+    message-topic: message-rcs-topic
+    delay-level: 1
+  times-required-to-fail-once: 10
+
+maap:
+  service-url: http://192.168.209.176:3128/
+2020-10-27 16:38:40,353 [main] INFO  [o.s.c.b.c.PropertySourceBootstrapConfiguration] PropertySourceBootstrapConfiguration.java:101 - Located property source: CompositePropertySource {name='NACOS', propertySources=[NacosPropertySource {name='rcs.yaml'}, NacosPropertySource {name='rcs'}]}
