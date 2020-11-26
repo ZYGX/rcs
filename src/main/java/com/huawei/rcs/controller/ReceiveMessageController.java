@@ -127,4 +127,17 @@ public class ReceiveMessageController {
 
     }
 
+    /**
+     * RCS 接收Maap递送报告
+     * @param text
+     * @param apiVersion
+     * @return
+     */
+    @PostMapping("/messaging/{apiVersion}/report")
+    public ResponseEntity<MaapResponse> report(@RequestBody String text,
+                                               @PathVariable(value = "apiVersion") String apiVersion){
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+
+    }
+
 }
