@@ -43,8 +43,8 @@ public class MqReportListener implements RocketMQListener<String> {
                     .removeHeader("Accept-Encoding").header("Accept","application/json")
                     .header("Host",host).header("Date", DateUtils.getGmtTime(new Date()))
                     .body(JSON.toJSONString(mqReport)).execute().body();
-            log.info("send report request to maap messageId:{},result:{}",
-                    CollectionUtils.isEmpty(mqReport.getDeliveryInfoList())?null:mqReport.getDeliveryInfoList().get(0).getMessageId(),result);
+            log.info("send report request to maap messageId:{},maap url:{},result:{}",
+                    CollectionUtils.isEmpty(mqReport.getDeliveryInfoList())?null:mqReport.getDeliveryInfoList().get(0).getMessageId(),maapServiceUrl,result);
 
         }
     }
