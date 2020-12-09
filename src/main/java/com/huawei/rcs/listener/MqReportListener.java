@@ -21,7 +21,7 @@ import java.util.Date;
  */
 
 @Service
-@RocketMQMessageListener(consumerGroup = "rcs-consumer-group", topic = "${rcs.rocketmq.message-topic}")
+@RocketMQMessageListener(consumerGroup = "${rcs.rocketmq.consume-group}", topic = "${rcs.rocketmq.message-topic}")
 @Slf4j
 @RefreshScope
 public class MqReportListener implements RocketMQListener<String> {
