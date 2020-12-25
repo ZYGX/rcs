@@ -1,7 +1,7 @@
 package com.huawei.rcs.controller;
 
-import com.huawei.rcs.domain.MaapResponse;
-import com.huawei.rcs.domain.MessageBody;
+import com.huawei.rcs.domain.chinaunicom.MaapResponse;
+import com.huawei.rcs.domain.chinaunicom.MessageBody;
 import com.huawei.rcs.enums.EnumReportStatus;
 import com.huawei.rcs.service.ReportService;
 import lombok.RequiredArgsConstructor;

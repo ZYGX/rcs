@@ -4,7 +4,7 @@
  * Created on 14 mai 2002, 10:33
  */
 
-package com.huawei.rcs.domain;
+package com.huawei.rcs.domain.chinaunicom;
 
 import java.util.List;
 

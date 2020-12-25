@@ -48,10 +48,30 @@
 		</filter>
 	</appender>
 
+
+	<appender name="mq-error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.path}/mq-error.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!--一个月备份一次-->
+			<fileNamePattern>${log.path}/mq-error-%d{yyyyMM}-%i.log.gz</fileNamePattern>
+			<maxFileSize>1GB</maxFileSize>
+			<maxHistory>60</maxHistory>
+			<totalSizeCap>5GB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${log.pattern}</pattern>
+		</encoder>
+	</appender>
+
 	<!-- Level: FATAL 0  ERROR 3  WARN 4  INFO 6  DEBUG 7 -->
 	<root level="INFO">
 		<appender-ref ref="console"/>
 		<appender-ref ref="debug"/>
 		<appender-ref ref="error"/>
 	</root>
+
+	<!--mq记录错误日志输出-->
+	<logger name="mq-error" level="warn">
+		<appender-ref ref="mq-error"/>
+	</logger>
 </configuration>

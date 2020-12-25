@@ -1,6 +1,6 @@
-package com.huawei.rcs.domain.mq;
+package com.huawei.rcs.domain.chinaunicom.mq;
 
-import com.huawei.rcs.domain.DeliveryInfo;
+import com.huawei.rcs.domain.chinaunicom.DeliveryInfo;
 import lombok.Data;
 
 import java.util.List;

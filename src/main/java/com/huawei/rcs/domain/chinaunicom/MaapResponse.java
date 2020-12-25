@@ -1,4 +1,4 @@
-package com.huawei.rcs.domain;
+package com.huawei.rcs.domain.chinaunicom;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
