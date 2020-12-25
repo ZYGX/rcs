@@ -9,6 +9,8 @@ import com.huawei.rcs.domain.chinamobile.DeliveryInfo;
 import com.huawei.rcs.domain.chinamobile.DeliveryInfoNotification;
 import com.huawei.rcs.domain.chinamobile.DeliveryInfoNotificationDto;
 import com.huawei.rcs.domain.chinamobile.Link;
+import com.huawei.rcs.domain.chinamobile.MessageStatusNotification;
+import com.huawei.rcs.domain.chinamobile.MessageStatusReport;
 import com.huawei.rcs.domain.chinamobile.OutboundMessageRequest;
 import com.huawei.rcs.enums.EnumChinamobileReportStatus;
 import com.huawei.rcs.utils.XmlUtil;
@@ -80,7 +82,9 @@ public class ChinamobileReportService {
 
                         DeliveryInfoNotificationDto deliveryInfoNotificationDto=new DeliveryInfoNotificationDto();
                         BeanUtils.copyProperties(deliveryInfoNotification,deliveryInfoNotificationDto);
-                        report.setDeliveryInfoNotification(XmlUtil.convertToXml(deliveryInfoNotificationDto,"deliveryInfoNotification","urn:oma:xml:rest:netapi:messaging:1"));
+                        report.setMessage(XmlUtil.convertToXml(deliveryInfoNotificationDto,"deliveryInfoNotification","urn:oma:xml:rest:netapi:messaging:1"));
+                        report.setAddress(addr);
+                        report.setUrl("/DeliveryInfoNotification/");
 
                         SendResult sendResult=rocketMQTemplate.syncSendOrderly(messageChinaMobileRcsTopic,
                                 MessageBuilder.withPayload(JSON.toJSONString(report)).build(),messageId,3000);
@@ -89,7 +93,36 @@ public class ChinamobileReportService {
                     });
                 }
 
+            }
 
+        }
+
+    }
+
+    public void sendRevokeReport(String chatbotId,String messageId,String text,String deliveryStatus){
+
+        if(StrUtil.isNotBlank(text)){
+            MessageStatusReport messageStatusReport= XmlUtil.convertToBean(text, MessageStatusReport.class);
+
+            if(ObjectUtil.isNotNull(messageStatusReport)){
+                //源消息接收方地址
+                String address=messageStatusReport.getAddress();
+
+                MessageStatusNotification messageStatusNotification=new MessageStatusNotification();
+                messageStatusNotification.setAddress(address);
+                messageStatusNotification.setMessageId(messageId);
+                messageStatusNotification.setStatus(deliveryStatus);
+
+
+                ChinamobileMqReport report=new ChinamobileMqReport();
+                report.setChatbotId(chatbotId);
+                report.setAddress(address);
+                report.setMessage(XmlUtil.convertToXml(messageStatusNotification,"messageStatusNotification","urn:oma:xml:rest:netapi:messaging:1"));
+                report.setUrl("/MessageStatusNotification/");
+
+                SendResult sendResult=rocketMQTemplate.syncSendOrderly(messageChinaMobileRcsTopic,
+                        MessageBuilder.withPayload(JSON.toJSONString(report)).build(),messageId,3000);
+                log.info("rcs syncSend MQ status:{}",sendResult.getSendStatus());
             }
 
         }

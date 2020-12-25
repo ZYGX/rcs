@@ -15,7 +15,9 @@ public enum EnumChinamobileReportStatus {
     //已转短消息发送
     DELIVERED_TO_NETWORK("DeliveredToNetwork"),
     //消息已阅
-    MESSAGE_DISPLAYED("MessageDisplayed");
+    MESSAGE_DISPLAYED("MessageDisplayed"),
+    REVOKED("Revoked"),
+    REVOKEFAILED("RevokeFailed");
 
     private String value;
 

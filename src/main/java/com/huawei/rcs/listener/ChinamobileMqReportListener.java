@@ -7,9 +7,7 @@ import cn.hutool.http.HttpStatus;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.huawei.rcs.domain.chinamobile.ChinamobileMqReport;
-import com.huawei.rcs.domain.chinamobile.DeliveryInfoNotification;
 import com.huawei.rcs.utils.DateUtils;
-import com.huawei.rcs.utils.XmlUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -58,25 +56,23 @@ public class ChinamobileMqReportListener implements RocketMQListener<MessageExt>
                 ChinamobileMqReport report= JSON.parseObject(message,ChinamobileMqReport.class);
                 if(report!=null){
 
-                    DeliveryInfoNotification request= XmlUtil.convertToBean(report.getDeliveryInfoNotification(), DeliveryInfoNotification.class);
-
                     String host="127.0.0.1";
                     if(StringUtils.isNotEmpty(maapServiceUrl)){
                         host=StringUtils.substringBetween(maapServiceUrl,"://","/");
                     }
 
-                    String requestUrl=maapServiceUrl+"/DeliveryInfoNotification/"+report.getChatbotId();
+                    String requestUrl=maapServiceUrl+report.getUrl()+report.getChatbotId();
 
                     HttpResponse httpResponse = HttpUtil.createPost(requestUrl)
                             .header(Header.ACCEPT, ContentType.XML.toString()).header(Header.CONTENT_TYPE, ContentType.XML.toString())
                             .header(Header.HOST,host).header(Header.DATE, DateUtils.getGmtTime(new Date()))
-                            .header("Address",request.getDeliveryInfo().getAddress())
-                            .header("X-Office-Code","HDN").header(Header.CONTENT_LENGTH,report.getDeliveryInfoNotification().length()+"")
-                            .body(report.getDeliveryInfoNotification()).execute();
+                            .header("Address",report.getAddress())
+                            .header("X-Office-Code","HDN").header(Header.CONTENT_LENGTH,report.getMessage().length()+"")
+                            .body(report.getMessage()).execute();
 
                     log.info("send report request to maap url:{},status:{},result:{}",requestUrl,httpResponse.getStatus(),httpResponse.body());
 
-                    if(HttpStatus.HTTP_NO_CONTENT!=httpResponse.getStatus()){
+                    if(httpResponse.getStatus()>=HttpStatus.HTTP_BAD_REQUEST){
                         throw new UnexpectedException("get response status "+httpResponse.getStatus());
                     }
 
@@ -85,6 +81,7 @@ public class ChinamobileMqReportListener implements RocketMQListener<MessageExt>
                 log.error("ChinaMobile RCS consume message error:",e);
                 if(messageExt.getReconsumeTimes()>=maxRetry){
                     mqErrorLog.error(messageExt.toString());
+                    return;
                 }
                 throw e;
             }

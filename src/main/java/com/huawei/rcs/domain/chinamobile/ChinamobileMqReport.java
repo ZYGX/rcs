@@ -4,7 +4,11 @@ public class ChinamobileMqReport {
 
     private String chatbotId;
 
-    private String deliveryInfoNotification;
+    private String address;
+
+    private String message;
+
+    private String url;
 
     public String getChatbotId() {
         return chatbotId;
@@ -14,11 +18,27 @@ public class ChinamobileMqReport {
         this.chatbotId = chatbotId;
     }
 
-    public String getDeliveryInfoNotification() {
-        return deliveryInfoNotification;
+    public String getAddress() {
+        return address;
     }
 
-    public void setDeliveryInfoNotification(String deliveryInfoNotification) {
-        this.deliveryInfoNotification = deliveryInfoNotification;
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

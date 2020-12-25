@@ -46,25 +46,25 @@ public class ChinamobileReceiveMessageController {
                                           @PathVariable(value = "userId") String userId,
                                           @RequestBody String text) {
 
-        log.info("chinamobile rcs recieve maap |  apiVersion:{}, userId:{}, message:{}", apiVersion,userId,text);
+        log.info("chinamobile rcs recieve maap |  apiVersion:{}, userId:{}, message:{}", apiVersion, userId, text);
 
         //i 默认-1:永远不会报错
-        int i=-1;
-        if(timeRequiredToFailOnce>0){
-            i= RandomUtils.nextInt(0,timeRequiredToFailOnce);
+        int i = -1;
+        if (timeRequiredToFailOnce > 0) {
+            i = RandomUtils.nextInt(0, timeRequiredToFailOnce);
         }
 
-        if(i==0){
+        if (i == 0) {
             //发送失败递送报告
-            chinamobileReportService.sendReport(userId,text, EnumChinamobileReportStatus.DELIVERY_IMPOSSIBLE.getValue());
-        }else{
+            chinamobileReportService.sendReport(userId, text, EnumChinamobileReportStatus.DELIVERY_IMPOSSIBLE.getValue());
+        } else {
             //发送成功递送报告
-            chinamobileReportService.sendReport(userId,text, EnumChinamobileReportStatus.DELIVERED_TO_TERMINAL.getValue());
-            chinamobileReportService.sendReport(userId,text, EnumChinamobileReportStatus.MESSAGE_DISPLAYED.getValue());
+            chinamobileReportService.sendReport(userId, text, EnumChinamobileReportStatus.DELIVERED_TO_TERMINAL.getValue());
+            chinamobileReportService.sendReport(userId, text, EnumChinamobileReportStatus.MESSAGE_DISPLAYED.getValue());
         }
 
         HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.set(Header.DATE.toString(), DateUtils.getGmtTime(new Date()));
+        httpHeaders.set(Header.DATE.toString(), DateUtils.getGmtTime(new Date()));
         httpHeaders.set(Header.LOCATION.toString(), request.getRequestURL().toString());
         httpHeaders.set(Header.CONTENT_TYPE.toString(), ContentType.XML.toString());
         httpHeaders.set(Header.CONTENT_LENGTH.toString(), text == null ? "0" : (text.length() + ""));
@@ -78,16 +78,48 @@ public class ChinamobileReceiveMessageController {
      * @return
      */
     @PutMapping(value = "/messaging/{apiVersion}/inbound/registrations/{userId}/messages/{messageId}/status")
-    public ResponseEntity inboundStatus(HttpServletRequest request,
-                                        @PathVariable(value = "apiVersion") String apiVersion,
+    public ResponseEntity inboundStatus(@PathVariable(value = "apiVersion") String apiVersion,
                                         @PathVariable(value = "userId") String userId,
                                         @PathVariable(value = "messageId") String messageId,
                                         @RequestBody String text) {
 
-        log.info("chinamobile rcs recieve maap |  apiVersion:{}, userId:{}, messageId:{}, message:{}", apiVersion,userId,messageId,text);
+        log.info("chinamobile rcs recieve maap |  apiVersion:{}, userId:{}, messageId:{}, message:{}", apiVersion, userId, messageId, text);
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set(Header.DATE.toString(), DateUtils.getGmtTime(new Date()));
+
+        return new ResponseEntity(httpHeaders, HttpStatus.NO_CONTENT);
+    }
+
+
+    /**
+     * 接收maap下行撤回消息
+     *
+     * @return
+     */
+    @PostMapping(value = "/messaging/{apiVersion}/outbound/{userId}/requests/{messageId}/status")
+    public ResponseEntity revoke(@PathVariable(value = "apiVersion") String apiVersion,
+                                 @PathVariable(value = "userId") String userId,
+                                 @PathVariable(value = "messageId") String messageId,
+                                 @RequestBody String text) {
+
+        log.info("chinamobile rcs recieve maap |  apiVersion:{}, userId:{}, messageId:{}, message:{}", apiVersion, userId, messageId, text);
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set(Header.DATE.toString(), DateUtils.getGmtTime(new Date()));
+
+        //i 默认-1:永远不会报错
+        int i = -1;
+        if (timeRequiredToFailOnce > 0) {
+            i = RandomUtils.nextInt(0, timeRequiredToFailOnce);
+        }
+        if (i == 0) {
+            //发送失败递送报告
+            chinamobileReportService.sendRevokeReport(userId, messageId,text, EnumChinamobileReportStatus.REVOKEFAILED.getValue());
+        } else {
+            //发送成功递送报告
+            chinamobileReportService.sendRevokeReport(userId,messageId, text, EnumChinamobileReportStatus.REVOKED.getValue());
+        }
 
         return new ResponseEntity(httpHeaders, HttpStatus.NO_CONTENT);
     }
