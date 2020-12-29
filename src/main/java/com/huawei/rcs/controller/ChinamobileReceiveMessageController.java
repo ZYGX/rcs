@@ -14,8 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -77,7 +78,8 @@ public class ChinamobileReceiveMessageController {
      *
      * @return
      */
-    @PutMapping(value = "/messaging/{apiVersion}/inbound/registrations/{userId}/messages/{messageId}/status")
+    @RequestMapping(value = "/messaging/{apiVersion}/inbound/registrations/{userId}/messages/{messageId}/status",
+            method = {RequestMethod.POST, RequestMethod.PUT})
     public ResponseEntity inboundStatus(@PathVariable(value = "apiVersion") String apiVersion,
                                         @PathVariable(value = "userId") String userId,
                                         @PathVariable(value = "messageId") String messageId,
@@ -97,7 +99,9 @@ public class ChinamobileReceiveMessageController {
      *
      * @return
      */
-    @PostMapping(value = "/messaging/{apiVersion}/outbound/{userId}/requests/{messageId}/status")
+    @RequestMapping(value = "/messaging/{apiVersion}/outbound/{userId}/requests/{messageId}/status",
+            method = {RequestMethod.POST, RequestMethod.PUT})
+
     public ResponseEntity revoke(@PathVariable(value = "apiVersion") String apiVersion,
                                  @PathVariable(value = "userId") String userId,
                                  @PathVariable(value = "messageId") String messageId,
@@ -115,10 +119,10 @@ public class ChinamobileReceiveMessageController {
         }
         if (i == 0) {
             //发送失败递送报告
-            chinamobileReportService.sendRevokeReport(userId, messageId,text, EnumChinamobileReportStatus.REVOKEFAILED.getValue());
+            chinamobileReportService.sendRevokeReport(userId, messageId, text, EnumChinamobileReportStatus.REVOKEFAILED.getValue());
         } else {
             //发送成功递送报告
-            chinamobileReportService.sendRevokeReport(userId,messageId, text, EnumChinamobileReportStatus.REVOKED.getValue());
+            chinamobileReportService.sendRevokeReport(userId, messageId, text, EnumChinamobileReportStatus.REVOKED.getValue());
         }
 
         return new ResponseEntity(httpHeaders, HttpStatus.NO_CONTENT);
