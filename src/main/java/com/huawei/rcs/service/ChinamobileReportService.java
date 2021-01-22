@@ -40,7 +40,7 @@ public class ChinamobileReportService {
     @Autowired
     private RocketMQTemplate rocketMQTemplate;
 
-    @Value("${rcs.rocketmq.message-chinamobile-topic}")
+    @Value("${rcs.rocketmq.message-chinamobile-topic:message-chinamobile-topic}")
     private String messageChinaMobileRcsTopic;
 
     public void sendReport(String chatbotId,String text,String deliveryStatus){
@@ -142,7 +142,7 @@ public class ChinamobileReportService {
                 "        <contributionID>SFF$#yyyy\n" +
                 "        </contributionID>\n" +
                 "        <serviceCapability>\n" +
-                "            <capabilityId> ChatbotSA </capabilityId>\n" +
+                "            <capabilityId>ChatbotSA</capabilityId>\n" +
                 "            <version>+g.gsma.rcs.botversion=&quot;#=1&quot;</version>\n" +
                 "        </serviceCapability>\n" +
                 "        <messageId>5eae954c-42ca-4181-9ab4-9c0ef2e2ac66</messageId>\n" +

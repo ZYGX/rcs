@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class ReceiveMessageController {
 
-    @Value("${rcs.times-required-to-fail-once}")
+    @Value("${rcs.times-required-to-fail-once:-1}")
     private int timeRequiredToFailOnce;
 
     private final ReportService reportService;

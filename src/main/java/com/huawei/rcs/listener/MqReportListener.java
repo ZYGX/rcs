@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -21,11 +22,12 @@ import java.util.Date;
  */
 
 @Service
+@ConditionalOnProperty(prefix="rcs.rocketmq",name = {"consume-group","message-topic"})
 @RocketMQMessageListener(consumerGroup = "${rcs.rocketmq.consume-group}", topic = "${rcs.rocketmq.message-topic}")
 @Slf4j
 @RefreshScope
 public class MqReportListener implements RocketMQListener<String> {
-    @Value("${maap.service-url}")
+    @Value("${maap.service-url:127.0.0.1}")
     private String maapServiceUrl;
 
     @Override

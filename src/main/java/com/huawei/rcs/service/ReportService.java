@@ -34,13 +34,13 @@ public class ReportService {
     @Resource
     private RocketMQTemplate rocketMQTemplate;
 
-    @Value("${rcs.rocketmq.message-topic}")
+    @Value("${rcs.rocketmq.message-topic:message-topic}")
     private String messageRcsTopic;
 
     /**
      * 延时等级 messageDelayLevel=1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h
      */
-    @Value("${rcs.rocketmq.delay-level}")
+    @Value("${rcs.rocketmq.delay-level:1}")
     private Integer delayLevel;
 
     /**

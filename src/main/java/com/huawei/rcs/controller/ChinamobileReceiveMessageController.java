@@ -33,7 +33,7 @@ public class ChinamobileReceiveMessageController {
 
     private final ChinamobileReportService chinamobileReportService;
 
-    @Value("${rcs.times-required-to-fail-once}")
+    @Value("${rcs.times-required-to-fail-once:-1}")
     private int timeRequiredToFailOnce;
 
     /**
